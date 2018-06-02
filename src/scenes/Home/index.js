@@ -21,15 +21,21 @@ let styles = StyleSheet.create({
 
     menuItemContainer: {
         flex: 1,
-        backgroundColor: '#000',
+        alignItems: 'flex-end',
+        justifyContent: 'flex-end',
         height: 170,
-        marginBottom: 8
+        marginBottom: 8,
+        marginHorizontal: 8,
+        backgroundColor: '#000',
     },
 
     menuItemText: {
+        marginRight: 8,
+        marginBottom: 8,
         color: '#fff',
         fontSize: 36,
-        fontWeight: 'bold'
+        fontWeight: 'bold',
+        alignSelf: 'flex-end'
     }
 })
 
@@ -58,7 +64,7 @@ class Home extends Component {
                     </View>
 
                     <View style={styles.menuItemContainer}>
-                        <Text style={styles.menuItemText}>CREATORS</Text>
+                            <Text style={styles.menuItemText}>CREATORS</Text>
                     </View>
 
                 </Content>
