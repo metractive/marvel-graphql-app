@@ -60,6 +60,7 @@ class App extends Component {
                                 component={Home}
                                 title="Home"
                                 hideNavBar
+                                initial
                             />
 
                             <Scene
@@ -67,7 +68,6 @@ class App extends Component {
                                 component={Characters}
                                 title="Characters"
                                 hideNavBar
-                                initial
                             />
                         </Stack>
                     </Router>
