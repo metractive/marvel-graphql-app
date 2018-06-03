@@ -1,15 +1,23 @@
 import React, { Component } from 'react'
 import { Actions, Router, Stack, Scene } from 'react-native-router-flux'
-import { Root } from 'native-base'
+import { Root } from 'native-base'  
 import { BackHandler } from 'react-native'
 
-import Home from './scenes/Home'
+// Apollo (GraphQL)
+import { ApolloProvider } from 'react-apollo'
+import ApolloClient from 'apollo-boost'
 
-console.warn(Home)
+import Home from './scenes/Home'
+import Characters from './scenes/Characters'
 
 class App extends Component {
     constructor (props) {
         super(props)
+
+        // Create apollo client instance
+        this.client = new ApolloClient({ 
+            uri: 'https://marvel-graphql-server.herokuapp.com'
+        })
 
         // Bind methods
         this.onBackHandlerClick = this.onBackHandlerClick.bind(this)
@@ -43,19 +51,28 @@ class App extends Component {
 
     render () {
         return (
-            <Root>
-                <Router backAndroidHandler={this.onBackHandlerClick}>
-                    <Stack key="root">
-                        <Scene 
-                            key="home"
-                            component={Home}
-                            title="Home"
-                            hideNavBar
-                            initial
-                        />
-                    </Stack>
-                </Router>
-            </Root>
+            <ApolloProvider client={this.client}>
+                <Root>
+                    <Router backAndroidHandler={this.onBackHandlerClick}>
+                        <Stack key="root">
+                            <Scene 
+                                key="home"
+                                component={Home}
+                                title="Home"
+                                hideNavBar
+                                initial
+                            />
+
+                            <Scene
+                                key="characters"
+                                component={Characters}
+                                title="Characters"
+                                hideNavBar
+                            />
+                        </Stack>
+                    </Router>
+                </Root>
+            </ApolloProvider>
         )
     }
 }
