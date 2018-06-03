@@ -1,8 +1,61 @@
 import React, { Component } from 'react'
-import { ScrollView, View, Text, Image } from 'react-native'
+import {
+    ScrollView,
+    View,
+    Text,
+    Image,
+    StatusBar,
+    StyleSheet,
+    TouchableOpacity,
+    List,
+    FlatList
+} from 'react-native'
+
+import {
+    Container,
+    Header,
+    Body,
+    Title,
+    Content
+} from 'native-base';
+
 import { Query } from 'react-apollo'
 import { Button } from 'native-base'
 import gql from 'graphql-tag'
+
+import styled from "styled-components";
+
+const CharacterContainer = styled.View`
+    flex: 1;
+    height: 180;
+    alignItems: center;
+    justifyContent: center;
+    backgroundColor: #fff;
+`;
+
+const CharacterImage = styled.Image`
+    width: 100%;
+    flex: 1;
+    height: 150;
+    resizeMode: cover;
+`;
+
+let styles = StyleSheet.create({
+    header: {
+        backgroundColor: '#fff'
+    },
+
+    headerBody: {
+        alignItems: 'center',
+        justifyContent: 'center'
+    },
+
+    headerTitle: {
+        color: "#ED1D24",
+        fontFamily: 'bebas',
+        fontWeight: 'bold'
+    }
+})
 
 class Characters extends Component {
     render () {
@@ -15,9 +68,19 @@ class Characters extends Component {
                 }
             }
         `
-
         return (
-            <View>
+            <Container>
+
+                <Header style={styles.header} androidStatusBarColor='#FAFAFA'>
+                    <StatusBar
+                    backgroundColor="white"
+                    barStyle="dark-content"
+                    />
+                    <Body style={styles.headerBody}>
+                        <Title style={styles.headerTitle}>CHARACTERS</Title>
+                    </Body>
+                </Header>
+                
                 <Query
                     query={ALL_CHARACTERS}
                     variables={{
@@ -30,17 +93,22 @@ class Characters extends Component {
 
                         return (
                             <ScrollView>
-                            {
-                                data.allCharacters.map(character => {
-                                    return (
-                                        <React.Fragment key={`character-${character.id}`}>
-                                            <Image source={{ uri: character.thumbnail }} style={{ width: 100, height: 100 }} />
-                                            <Text>{character.name}</Text>
-                                        </React.Fragment>
-                                    )
-                                })
-                            }
-
+                               {
+                                   (data.allCharacters) && (
+                                        <FlatList
+                                        data={data.allCharacters}
+                                        numColumns={2}
+                                        renderItem={({item}) => 
+                                                <CharacterContainer key={`character-${item.id}`} style={{margin: 8, elevation: 4, borderRadius: 8}}>
+                                                    <CharacterImage
+                                                        source={{ uri: item.thumbnail }}
+                                                        style={{borderTopLeftRadius: 8, borderTopRightRadius: 8}}/>
+                                                    <Text style={{color: '#000', fontWeight: 'bold'}}>{item.name}</Text>
+                                                </CharacterContainer>
+                                        }>
+                                        </FlatList>
+                                   )
+                               }
                             <Button 
                                 onPress={() => {
                                     return fetchMore({
@@ -65,7 +133,7 @@ class Characters extends Component {
                         // return data
                     }}
                 </Query>
-            </View>
+            </Container>
         )
     }
 }

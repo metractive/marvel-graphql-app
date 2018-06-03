@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { View, StatusBar, StyleSheet, Text, Image } from 'react-native'
+import { View, StatusBar, StyleSheet, Text, Image, TouchableOpacity } from 'react-native'
 import {
     Container,
     Header,
@@ -7,6 +7,8 @@ import {
     Title,
     Content
 } from 'native-base';
+
+import {Actions} from 'react-native-router-flux';
 
 import styled from "styled-components";
 
@@ -20,6 +22,11 @@ const IMAGES = {
 let styles = StyleSheet.create({
     header: {
         backgroundColor: '#fff'
+    },
+
+    headerBody: {
+        alignItems: 'center',
+        justifyContent: 'center'
     },
 
     headerTitle: {
@@ -42,7 +49,7 @@ let styles = StyleSheet.create({
 
     menuItemText: {
         marginRight: 16,
-        marginBottom: 16,
+        marginBottom: 8,
         color: '#fff',
         fontSize: 36,
         fontWeight: 'bold',
@@ -68,19 +75,22 @@ class Home extends Component {
                     backgroundColor="white"
                     barStyle="dark-content"
                     />
-                    <Body style={{alignItems: 'center', justifyContent: 'center'}}>
-                        <Title style={styles.headerTitle}><Text style={{fontFamily: 'bebas'}}>MARVEL</Text></Title>
+                    <Body style={styles.headerBody}>
+                        <Title style={styles.headerTitle}>MARVEL</Title>
                     </Body>
                 </Header>
 
                 <Content style={{flexDirection: 'column', backgroundColor: '#fff'}}>
 
-                    <View style={[styles.menuItemContainer, {marginTop: 8}]}>
+                    <TouchableOpacity
+                    activeOpacity={.7}
+                    style={[styles.menuItemContainer, {marginTop: 8}]}
+                    onPress={ () => Actions.push('characters') }>
                         <StyledMenuImage
                             source={IMAGES.HULK_RION}>
                         </StyledMenuImage>
                         <Text style={styles.menuItemText}>CHARACTERS</Text>
-                    </View>
+                    </TouchableOpacity>
 
                     <View style={styles.menuItemContainer}>
                         <StyledMenuImage
