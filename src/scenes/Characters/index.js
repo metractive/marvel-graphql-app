@@ -5,17 +5,19 @@ import gql from 'graphql-tag'
 
 class Characters extends Component {
     render () {
+        const ALL_CHARACTERS = gql`
+            {
+                allCharacters {
+                    id
+                    name
+                }
+            }
+        `
+
         return (
             <View>
                 <Query
-                    query={gql`
-                    {
-                        allCharacters {
-                            id
-                            name
-                        }
-                    }
-                    `}>
+                    query={ALL_CHARACTERS}>
                     {({ loading, error, data }) => {
                         if (loading) return <Text>Loading</Text>
                         if (error) return <Text>Error :(</Text>
